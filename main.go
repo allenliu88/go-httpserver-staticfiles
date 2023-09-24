@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strconv"
 	"syscall"
 
 	"github.com/sirupsen/logrus"
@@ -22,6 +23,8 @@ func main() {
 	flag.StringVar(&path, "path", "", "静态文件目录")
 	flag.IntVar(&port, "port", 8080, "HTTP服务器端口")
 	flag.Parse()
+	logrus.Println("path: " + path)
+	logrus.Println("port: " + strconv.Itoa(port))
 	addr := fmt.Sprintf(":%d", port)
 	handler := http.FileServer(http.Dir(path))
 
