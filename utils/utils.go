@@ -2,9 +2,13 @@ package utils
 
 import (
 	"errors"
+	"fmt"
 	"html/template"
+	"log"
 	"os"
+	"os/exec"
 	"path"
+	"path/filepath"
 	"strings"
 
 	"gopkg.in/yaml.v2"
@@ -41,8 +45,31 @@ func GetBizAnsibleRepo(bizRequirementsFilePath string) (string, error) {
 	return "", errors.New("not found")
 }
 
+// 获取绝对目录
+func BuildAbsolutePath(path string) string {
+	cmd := exec.Command("dirname", path)
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Printf("combined out:\n%s\n", string(out))
+		log.Fatalf("cmd.Run() failed with %s\n", err)
+	}
+	fmt.Printf("combined out:\n%s\n", string(out))
+
+	return string(out)
+}
+
 func BuildRequirementsFromTemplate(requirementsTemplateFilePath string,
 	requirementsFilePathDest string, requirRequirementValues RequirementValues) error {
+
+	if path.IsAbs(requirementsTemplateFilePath) {
+		fmt.Println("Absolute")
+	} else {
+		fmt.Println("Not Absolute")
+	}
+
+	fmt.Println(BuildAbsolutePath(requirementsTemplateFilePath))
+
+	requirementsTemplateFilePath, err := filepath.Abs(requirementsTemplateFilePath)
 
 	// 创建模板
 	tpl, err := template.New(path.Base(requirementsTemplateFilePath)).ParseFiles(requirementsTemplateFilePath)

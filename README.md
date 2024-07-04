@@ -14,13 +14,22 @@ INFO[0000] HTTP Server Successfully Shutdown: [http: Server closed]
 
 ## Build & Run
 
+For Mac Apple M1
+
+```shell
+CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -o bin/go-httpserver-staticfiles-darwin-arm64 main.go
+
+chmod +x bin/go-httpserver-staticfiles-darwin-arm64
+nohup bin/go-httpserver-staticfiles-darwin-arm64 -path=`$pwd` -port=8080 > http.log 2>&1 &
+```
+
 For Linux
 
 ```shell
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o bin/go-httpserver-staticfiles-linux-amd64 main.go
 
-chmod +x go-httpserver-staticfiles-linux-amd64
-nohup ./go-httpserver-staticfiles-linux-amd64 -path=`$pwd` -port=8080 > http.log 2>&1 &
+chmod +x bin/go-httpserver-staticfiles-linux-amd64
+nohup bin/go-httpserver-staticfiles-linux-amd64 -path=`$pwd` -port=8080 > http.log 2>&1 &
 ```
 
 For Windows
@@ -28,8 +37,8 @@ For Windows
 ```shell
 CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o bin/go-httpserver-staticfiles-windows-amd64.exe main.go
 
-chmod +x go-httpserver-staticfiles-windows-amd64.exe
-nohup ./go-httpserver-staticfiles-windows-amd64.exe -path=`$pwd` -port=8080 > http.log 2>&1 &
+chmod +x bin/go-httpserver-staticfiles-windows-amd64.exe
+nohup bin/go-httpserver-staticfiles-windows-amd64.exe -path=`$pwd` -port=8080 > http.log 2>&1 &
 ```
 
 ## License
